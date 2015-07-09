@@ -1,0 +1,22 @@
+{
+  "name": "sow-integration",
+  "version": "1.0.0",
+  "description": "Assemble: schoolofwok.co.uk, sow-backoffice, sow-api",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^1.1.0",
+    "nightwatch": "^0.7.6",
+    "selenium-standalone": "^4.5.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node start.js",
+    "test": "node test.js",
+    "get-selenium": "selenium-standalone install --version=2.46.0",
+    "selenium": "selenium-standalone start --version=2.46.0",
+    "nightwatch": "nightwatch",
+    "postinstall": "npm run get-selenium"
+  },
+  "author": "olizilla",
+  "license": "ISC"
+}
