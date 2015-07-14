@@ -1,18 +1,16 @@
 # School of Wok - Integration tests
 
-Assemble:
-- schoolofwok.co.uk
-- sow-backoffice
-- sow-api
+Start up schoolofwok.co.uk, sow-backoffice, sow-api in `NODE_ENV=test` and run [nightwatch](http://nightwatchjs.org/) tests against them.
 
-1. Copy `config/default.json` to `config/runtime.json`.
-2. Obtain the credentials for a SOW backoffice user and add to `config/runtime.json`.
-3. For quick demo and testing
+## Getting started
+
+1. Copy `config/default.json` to `config/runtime.json`
+2. Obtain the credentials for a SOW backoffice user and add to `config/runtime.json`
+3. Run the tests:
 
     ```sh
-    # Run sow api, sow-backoffice, schoolofwok
-    npm start
-
-    # run all the things and start the integration tests
+    # Run sow api, sow-backoffice, schoolofwok and start the integration tests
     npm test
     ```
+
+N.B. You can start up all the servers without running the tests using `npm start`
