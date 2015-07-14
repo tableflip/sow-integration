@@ -1,0 +1,15 @@
+{
+  "web": {
+    "url": "http://localhost:3030"
+  },
+  "api": {
+    "url": "http://localhost:3400"
+  },
+  "backoffice": {
+    "url": "http://localhost:3340",
+    "login": {
+      "email": "",
+      "password": ""
+    }
+  }
+}

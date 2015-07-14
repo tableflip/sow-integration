@@ -1,4 +1,5 @@
-var login = require('../helpers/login')
+var config = require('config')
+var login = require('../helpers/bo-login')
 var maxWait = 2000
 var pauseOnClick = 500
 var voucher = {
@@ -17,8 +18,7 @@ var voucher = {
 module.exports = {
   '01 - Add voucher to backoffice': function (browser) {
     login(browser)
-    browser
-      .url('http://localhost:3340/voucher/template')
+      .url(config.backoffice.url + '/voucher/template')
       .waitForElementVisible('body.voucher-template-create', 1000)
       .setValue('#voucher-template-create-name', voucher.name)
       .setValue('#voucher-template-create-info-what', voucher.info.what)
@@ -33,7 +33,7 @@ module.exports = {
   },
   '02 - Shop for voucher': function (browser) {
     browser
-      .url('http://localhost:3030/shop')
+      .url(config.web.url + '/shop')
       .waitForElementVisible('body', maxWait)
       .assert.containsText('.cart-graphic .count', '0')
       // click 1st link... vouchers are first

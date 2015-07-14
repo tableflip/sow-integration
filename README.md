@@ -5,13 +5,14 @@ Assemble:
 - sow-backoffice
 - sow-api
 
-For quick demo and testing
+1. Copy `config/default.json` to `config/runtime.json`.
+2. Obtain the credentials for a SOW backoffice user and add to `config/runtime.json`.
+3. For quick demo and testing
 
-```sh
+    ```sh
+    # Run sow api, sow-backoffice, schoolofwok
+    npm start
 
-# Run sow api, sow-backoffice, schoolofwok
-npm start
-
-# run all the things and start the integration tests
-npm test
-```
+    # run all the things and start the integration tests
+    npm test
+    ```

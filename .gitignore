@@ -2,3 +2,4 @@ node_modules
 selenium-debug.log
 npm-debug.log
 reports
+config/runtime.json

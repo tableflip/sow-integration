@@ -1,15 +1,15 @@
-var config = require('sow-backoffice/config/test.json')
+var config = require('config')
 
 module.exports = function (browser) {
   return browser
-    .url(config.url)
+    .url(config.backoffice.url)
     .waitForElementVisible('body', 1000)
     .click('a[href="/login"]')
     .waitForElementVisible('#Email', 1000)
-    .setValue('#Email', config.login.email)
+    .setValue('#Email', config.backoffice.login.email)
     .click('#next')
     .waitForElementVisible('#Passwd', 2000)
-    .setValue('#Passwd', "set me!")
+    .setValue('#Passwd', config.backoffice.login.password)
     .click('#signIn')
     .waitForElementVisible('#submit_approve_access:not([disabled])', 5000)
     .click('#submit_approve_access')
