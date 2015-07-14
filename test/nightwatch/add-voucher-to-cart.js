@@ -1,5 +1,5 @@
 var config = require('config')
-var login = require('../helpers/bo-login')
+var login = require('../helpers/bo/login')
 var maxWait = 2000
 var pauseOnClick = 500
 var voucher = {
