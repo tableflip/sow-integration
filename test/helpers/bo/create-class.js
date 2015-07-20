@@ -1,5 +1,6 @@
 var config = require('config')
 var moment = require('moment')
+var selectByText = require('../select-by-text')
 
 module.exports = function (data, tags, menus, browser, opts) {
   opts = opts || {}
@@ -72,12 +73,7 @@ module.exports = function (data, tags, menus, browser, opts) {
     browser = browser.setValue('#class-create-info-reviews', data.info.reviews)
   }
 
-  browser = tags.reduce(function (browser, tag) {
-    return browser
-      .useXpath()
-      .click('//select[@id="class-create-tags"]/option[text()="' + tag.name + '"]')
-      .useCss()
-  }, browser)
+  browser = selectByText('#class-create-tags', tags.map(function (t) { return t.name }), browser)
 
   browser = browser
     .click('#class-create-duration option[value="' + data.duration + '"]')

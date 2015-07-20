@@ -1,4 +1,5 @@
 var config = require('config')
+var selectByText = require('../select-by-text')
 
 module.exports = function (data, recipes, browser) {
   browser = browser
@@ -11,17 +12,10 @@ module.exports = function (data, recipes, browser) {
 
   browser = recipes.reduce(function (browser, recipe, i) {
     if (i > 0) {
-      return browser
-        .click('#menu-create-recipe-add')
-        .useXpath()
-        .click('//select[@id="menu-recipe-' + i + '"]/option[text()="' + recipe.name + '"]')
-        .useCss()
+      browser = browser.click('#menu-create-recipe-add')
+      return selectByText('#menu-recipe-' + i, recipe.name, browser)
     }
-
-    return browser
-      .useXpath()
-      .click('//select[@id="menu-create-recipe-' + i + '"]/option[text()="' + recipe.name + '"]')
-      .useCss()
+    return selectByText('#menu-create-recipe-' + i, recipe.name, browser)
   }, browser)
 
   return browser

@@ -1,4 +1,5 @@
 var config = require('config')
+var selectByText = require('../select-by-text')
 
 module.exports = function (data, tags, browser) {
   browser = browser
@@ -20,12 +21,7 @@ module.exports = function (data, tags, browser) {
     .setValue('#class-template-create-info-faqs', data.info.faqs)
     .setValue('#class-template-create-info-reviews', data.info.reviews)
 
-   browser = tags.reduce(function (browser, tag) {
-    return browser
-      .useXpath()
-      .click('//select[@id="class-template-create-tags"]/option[text()="' + tag.name + '"]')
-      .useCss()
-  }, browser)
+   browser = selectByText('#class-template-create-tags', tags.map(function (t) { return t.name }), browser)
 
   return browser
     .click('#class-template-create-duration option[value="' + data.duration + '"]')
