@@ -50,8 +50,6 @@ module.exports = {
     browser = browser
       .click('.btn-go-to-payment')
       .waitForElementVisible('body.booking-info', 1000)
-      .click('input[type="checkbox"][name="classes[0]"]')
-      .click('input[type="checkbox"][name="classes[0]"]')
       .setValue('#firstName', Faker.name.firstName())
       .setValue('#lastName', Faker.name.lastName())
       .setValue('#email', Faker.internet.email())
