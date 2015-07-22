@@ -13,5 +13,5 @@ module.exports = function (browser) {
     .click('#signIn')
     .waitForElementVisible('#submit_approve_access:not([disabled])', 5000)
     .click('#submit_approve_access')
-    .waitForElementVisible('body', 1000)
+    .pause(1000)
 }

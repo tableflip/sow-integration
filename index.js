@@ -42,7 +42,8 @@ function startAllApps (done) {
     app.proc = spawn('npm', ['start'], {cwd: app.root, env: env})
     console.log(app.name, 'starting')
     app.proc.stdout.on('data', function (data) {
-      if (app.ready || !app.waitFor) console.log(app.name, data.toString('utf8'))
+      // uncomment if you need all the app logs. They typically distract from the nightwatch log.
+      // if (app.ready || !app.waitFor) console.log(app.name, data.toString('utf8'))
       if (data.toString('utf8').indexOf(app.waitFor) === -1) return
       app.ready = true
       console.log(chalk.green(app.name, 'ready'))
