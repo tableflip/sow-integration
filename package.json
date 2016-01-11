@@ -4,11 +4,13 @@
   "description": "Assemble: schoolofwok.co.uk, sow-backoffice, sow-api",
   "main": "index.js",
   "dependencies": {
+    "async": "^1.5.2",
     "chalk": "^1.1.0",
     "config": "^1.14.0",
     "faker": "^3.0.0",
     "moment": "^2.10.3",
     "nightwatch": "^0.7.6",
+    "ps-tree": "^1.0.1",
     "selenium-standalone": "^4.5.3"
   },
   "devDependencies": {},
