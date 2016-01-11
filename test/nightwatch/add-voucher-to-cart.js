@@ -35,7 +35,7 @@ module.exports = {
     browser
       .url(config.web.url + '/shop')
       .waitForElementVisible('body', maxWait)
-      .assert.containsText('.cart-graphic .count', '0')
+      .assert.containsText('#cart-mini .count', '0')
       // click 1st link... vouchers are first
       .click('a[href="/shop/gift-vouchers"]')
       .pause(pauseOnClick)
@@ -46,9 +46,10 @@ module.exports = {
       .click('.btn-add-to-cart')
       .pause(pauseOnClick)
       .assert.urlContains('/basket')
+      .waitForElementVisible('#basket .line-item', maxWait)
       .assert.containsText('.line-item:nth-of-type(1) .product-description p:nth-of-type(1)', voucher.name)
       .assert.containsText('.line-item:nth-of-type(1) .product-description p:nth-of-type(2)', 'Full Day')
-      .assert.containsText('.cart-graphic .count', '1')
+      .assert.containsText('#cart-mini .count', '1')
       .end()
   }
 }

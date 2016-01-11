@@ -60,7 +60,7 @@ module.exports = {
       .pause(1000) // No idea, needed for next setValue to work
       .setValue('#cardNumber', '4242424242424242')
       .setValue('#cvc', Faker.finance.account(3))
-      .setValue('#expMonth', moment().month())
+      .setValue('#expMonth', moment().month() + 1)
       .setValue('#expYear', moment().add(1, 'year').year())
       .click('.btn')
       .waitForElementVisible('body.confirm-order', 5000)
@@ -68,7 +68,7 @@ module.exports = {
   '05 - Checkout confirm': function (browser) {
     browser = browser
       .click('.btn')
-      .waitForElementVisible('body.thanks', 1000)
+      .waitForElementVisible('body.thanks', 5000)
       .end()
   }
 }

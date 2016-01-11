@@ -26,6 +26,6 @@ module.exports = function (data, browser) {
 
   return browser
     .click('.btn.submit')
-    .waitForElementVisible('body.recipes', 1000)
+    .waitForElementVisible('body.recipes', 5000)
     .assert.elementPresent('.alert-success')
 }

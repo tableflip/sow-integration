@@ -13,6 +13,7 @@ var createClassTemplate = require('../helpers/bo/create-class-template')
 var fakeClass = require('sow-api/test/helpers/fake-class')
 var createClass = require('../helpers/bo/create-class')
 var clickByText = require('../helpers/click-by-text')
+var clickByContainsText = require('../helpers/click-by-contains-text')
 
 var recipes = [fakeRecipe(), fakeRecipe()]
 var menu = fakeMenu()
@@ -37,11 +38,11 @@ module.exports = {
       .waitForElementVisible('body.home', 1000)
       .url(config.web.url + '/classes')
       .waitForElementVisible('body.classes', 1000)
-      .click('#date option[value="' + moment(cls.startTimes[0]).format('YYYY-MM') + '"]')
+      .click('#month option[value="' + moment(cls.startTimes[0]).format('YYYY-MM') + '"]')
       .waitForElementVisible('body.classes', 1000)
 
-    browser = clickByText('.sow-panel span', classTemplate.name, browser)
-      .waitForElementVisible('body.class', 1000)
+    browser = clickByContainsText('.sow-panel span', classTemplate.name, browser)
+      .waitForElementVisible('body.class', 100000)
       .click('.btn.book-now')
       .waitForElementVisible('body.basket', 1000)
       .assert.containsText('#basket tr:first-child .product-description p:first-child', classTemplate.name)
@@ -76,7 +77,7 @@ module.exports = {
       .pause(1000) // No idea, needed for next setValue to work
       .setValue('#cardNumber', '4242424242424242')
       .setValue('#cvc', Faker.finance.account(3))
-      .setValue('#expMonth', moment().month())
+      .setValue('#expMonth', moment().month() + 1)
       .setValue('#expYear', moment().add(1, 'year').year())
       .click('.btn')
       .waitForElementVisible('body.confirm-order', 5000)
@@ -84,7 +85,7 @@ module.exports = {
   '06 - Checkout confirm': function (browser) {
     browser = browser
       .click('.btn')
-      .waitForElementVisible('body.thanks', 1000)
+      .waitForElementVisible('body.thanks', 5000)
       .end()
   }
 }
