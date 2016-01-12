@@ -124,6 +124,8 @@ module.exports = {
     })
   },
   '08 - Add class to basket': function (browser) {
+    dbConn.close()
+    
     browser = browser
       .url(config.web.url + '/')
       .waitForElementVisible('body.home', 1000)

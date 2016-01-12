@@ -3,7 +3,7 @@ var config = require('config')
 module.exports = function (data, browser) {
   browser = browser
     .url(config.backoffice.url + '/recipes')
-    .waitForElementVisible('body.recipes', 1000)
+    .waitForElementVisible('body.recipes', 5000)
     .click('.btn[href="/recipe"]')
     .waitForElementVisible('body.recipe-create', 1000)
     .setValue('#recipe-create-name', data.name)
