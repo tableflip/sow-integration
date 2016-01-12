@@ -1,5 +1,6 @@
 var config = require('config')
 var login = require('../helpers/bo/login')
+var createVoucher = require('../helpers/bo/create-voucher')
 var maxWait = 2000
 var pauseOnClick = 500
 var voucher = {
@@ -17,19 +18,8 @@ var voucher = {
 
 module.exports = {
   '01 - Add voucher to backoffice': function (browser) {
-    login(browser)
-      .url(config.backoffice.url + '/voucher/template')
-      .waitForElementVisible('body.voucher-template-create', 1000)
-      .setValue('#voucher-template-create-name', voucher.name)
-      .setValue('#voucher-template-create-info-what', voucher.info.what)
-      .setValue('#voucher-template-create-price', '100')
-      .click('#voucher-template-create-duration')
-      .click('#voucher-template-create-duration option[value="ONE_DAY"]')
-      .click('#voucher-template-create-published ~ .toggle')
-      .click('.btn[type=submit]')
-      .waitForElementVisible('body.voucher-templates', 1000)
-      .assert.elementPresent('.alert-success')
-      .end()
+    browser = createVoucher(voucher, browser)
+    browser.end()
   },
   '02 - Shop for voucher': function (browser) {
     browser
