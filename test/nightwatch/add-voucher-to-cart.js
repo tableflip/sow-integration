@@ -46,8 +46,9 @@ module.exports = {
       .click('.btn-add-to-cart')
       .pause(pauseOnClick)
       .assert.urlContains('/basket')
-      .assert.containsText('.line-item:nth-of-type(1) .product-description p:nth-of-type(1)', voucher.name)
-      .assert.containsText('.line-item:nth-of-type(1) .product-description p:nth-of-type(2)', 'Full Day')
+      .pause(250)
+      .assert.containsText('#basket tr:first-child .product-description p:nth-of-type(1)', voucher.name)
+      .assert.containsText('#basket tr:first-child .product-description p:nth-of-type(2)', 'Full Day')
       .assert.containsText('.cart-graphic .count', '1')
       .end()
   }
