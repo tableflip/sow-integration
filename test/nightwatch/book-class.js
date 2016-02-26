@@ -37,13 +37,14 @@ module.exports = {
       .waitForElementVisible('body.home', 1000)
       .url(config.web.url + '/classes')
       .waitForElementVisible('body.classes', 1000)
-      .click('#date option[value="' + moment(cls.startTimes[0]).format('YYYY-MM') + '"]')
+      .click('#month option[value="' + moment(cls.startTimes[0]).format('YYYY-MM') + '"]')
       .waitForElementVisible('body.classes', 1000)
 
     browser = clickByText('.sow-panel span', classTemplate.name, browser)
       .waitForElementVisible('body.class', 1000)
       .click('.btn.book-now')
       .waitForElementVisible('body.basket', 1000)
+      .pause(250)
       .assert.containsText('#basket tr:first-child .product-description p:first-child', classTemplate.name)
   },
   '03 - Checkout booking info': function (browser) {
