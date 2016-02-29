@@ -15,6 +15,7 @@ var createClass = require('../helpers/bo/create-class')
 var clickByText = require('../helpers/click-by-text')
 var clickByContainsText = require('../helpers/click-by-contains-text')
 
+var maxWait = 2000
 var recipes = [fakeRecipe(), fakeRecipe()]
 var menu = fakeMenu()
 var tag = fakeClassTag()
@@ -35,33 +36,34 @@ module.exports = {
   '02 - Add class to basket': function (browser) {
     browser = browser
       .url(config.web.url + '/')
-      .waitForElementVisible('body.home', 1000)
+      .waitForElementVisible('body.home', maxWait)
       .url(config.web.url + '/classes')
-      .waitForElementVisible('body.classes', 1000)
+      .waitForElementVisible('body.classes', maxWait)
       .click('#month option[value="' + moment(cls.startTimes[0]).format('YYYY-MM') + '"]')
-      .waitForElementVisible('body.classes', 1000)
+      .waitForElementVisible('body.classes', maxWait)
 
     browser = clickByContainsText('.sow-panel span', classTemplate.name, browser)
       .waitForElementVisible('body.class', 100000)
       .click('.btn.book-now')
-      .waitForElementVisible('body.basket', 1000)
+      .waitForElementVisible('body.basket #basket tr', maxWait)
       .assert.containsText('#basket tr:first-child .product-description p:first-child', classTemplate.name)
   },
   '03 - Checkout booking info': function (browser) {
     browser = browser
       .click('.btn-go-to-payment')
-      .waitForElementVisible('body.booking-info', 1000)
+      .waitForElementVisible('body.booking-info', maxWait)
       .setValue('#firstName', Faker.name.firstName())
       .setValue('#lastName', Faker.name.lastName())
       .setValue('#email', Faker.internet.email())
       .setValue('#tel', Faker.phone.phoneNumber())
       .click('[name="dietNone"]')
       .click('.btn-confirm-attendee')
-      .pause(1000)
+      .waitForElementVisible('#modal-diet-requirements-anything button', maxWait)
       .click('#modal-diet-requirements-anything button')
-      .pause(1000)
+      .waitForElementNotVisible('#modal-diet-requirements-anything', maxWait)
+      .waitForElementVisible('.btn[href="/checkout/billing-and-shipping"]', maxWait)
       .click('.btn[href="/checkout/billing-and-shipping"]')
-      .waitForElementVisible('body.billing-and-shipping', 1000)
+      .waitForElementVisible('body.billing-and-shipping', maxWait)
   },
   '04 - Checkout billing and shipping': function (browser) {
     browser = browser
@@ -70,11 +72,11 @@ module.exports = {
       .setValue('#billingCounty', Faker.address.streetAddress())
       .setValue('#billingPostcode', Faker.address.streetAddress())
       .click('.btn')
-      .waitForElementVisible('body.payment', 1000)
+      .waitForElementVisible('body.payment', maxWait)
   },
   '05 - Checkout payment': function (browser) {
     browser = browser
-      .pause(1000) // No idea, needed for next setValue to work
+      .waitForElementPresent('#cardNumber', maxWait)
       .setValue('#cardNumber', '4242424242424242')
       .setValue('#cvc', Faker.finance.account(3))
       .setValue('#expMonth', moment().month() + 1)

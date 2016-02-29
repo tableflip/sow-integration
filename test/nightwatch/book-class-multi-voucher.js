@@ -23,7 +23,6 @@ var classTemplate = fakeClassTemplate()
 var cls = fakeClass({duration: 'THREE_HOUR'})
 
 var maxWait = 2000
-var pauseOnClick = 500
 var voucher = {
   name: 'Multi Voucher Test Voucher',
   duration: 'ONE_DAY',
@@ -56,22 +55,20 @@ module.exports = {
       .url(config.web.url + '/shop')
       .waitForElementVisible('body', maxWait)
       .assert.containsText('#cart-mini .count', '0')
-      // click 1st link... vouchers are first
       .click('a[href="/shop/gift-vouchers"]')
-      .pause(pauseOnClick)
+      .waitForElementVisible('body.gift-vouchers', maxWait)
       .assert.urlContains('/shop/gift-vouchers')
       .click('a[href="/shop/gift-vouchers/' + voucher.slug + '"]')
-      .pause(pauseOnClick)
+      .waitForElementVisible('body.multi-voucher-test-voucher', maxWait)
       .assert.urlContains(voucher.slug)
       .click('.btn-add-to-cart')
-      .pause(pauseOnClick)
+      .waitForElementVisible('body.basket', maxWait)
       .assert.urlContains('/basket')
       .waitForElementVisible('#basket .line-item', maxWait)
       .assert.containsText('.line-item:nth-of-type(1) .product-description p:nth-of-type(1)', voucher.name)
       .assert.containsText('.line-item:nth-of-type(1) .product-description p:nth-of-type(2)', 'Full Day')
       .click('select.select-quantity option:nth-of-type(2)')
-      .pause(pauseOnClick)
-      .assert.containsText('#cart-mini .count', '2')
+      .expect.element('#cart-mini .count').text.to.equal('2').before(maxWait)
   },
   '03 - Voucher recipients info': function (browser) {
     browser = browser
@@ -99,7 +96,7 @@ module.exports = {
   },
   '05 - Checkout payment': function (browser) {
     browser = browser
-      .pause(1000) // No idea, needed for next setValue to work
+      .waitForElementVisible('#cardNumber', maxWait)
       .setValue('#cardNumber', '4242424242424242')
       .setValue('#cvc', Faker.finance.account(3))
       .setValue('#expMonth', moment().month() + 1)
@@ -115,7 +112,7 @@ module.exports = {
   },
   '07 - Get gift codes from DB': function () {
     var Voucher = dbConn.collection('vouchers')
-    Voucher.find({name: 'Multi Voucher Test Voucher'}).limit(2, function (err, vouchers) {
+    Voucher.find({ name: 'Multi Voucher Test Voucher', redeemed: { $exists: false } }).limit(2, function (err, vouchers) {
       if (err) return console.error(err)
       console.log('VOUCHERS:',vouchers)
       giftCodes = vouchers.map(function (voucher) {
@@ -125,7 +122,7 @@ module.exports = {
   },
   '08 - Add class to basket': function (browser) {
     dbConn.close()
-    
+
     browser = browser
       .url(config.web.url + '/')
       .waitForElementVisible('body.home', 1000)
@@ -137,7 +134,7 @@ module.exports = {
     browser = clickByContainsText('.sow-panel span', classTemplate.name, browser)
       .waitForElementVisible('body.class', 1000)
       .click('.btn.book-now')
-      .waitForElementVisible('body.basket', 1000)
+      .waitForElementVisible('body.basket #basket tr', 1000)
       .assert.containsText('#basket tr:first-child .product-description p:first-child', classTemplate.name)
       .setValue('#voucher-code', giftCodes[0])
       .click('.voucher-code .btn')
@@ -156,11 +153,12 @@ module.exports = {
       .setValue('#tel', Faker.phone.phoneNumber())
       .click('[name="dietNone"]')
       .click('.btn-confirm-attendee')
-      .pause(1000)
+      .waitForElementVisible('#modal-diet-requirements-anything button', maxWait)
       .click('#modal-diet-requirements-anything button')
-      .pause(1000)
+      .waitForElementNotVisible('#modal-diet-requirements-anything', maxWait)
+      .waitForElementVisible('.btn[href="/checkout/billing-and-shipping"]', maxWait)
       .click('.btn[href="/checkout/billing-and-shipping"]')
-      .waitForElementVisible('body.billing-and-shipping', 1000)
+      .waitForElementVisible('body.billing-and-shipping', maxWait)
   },
   '10 - Checkout billing and shipping': function (browser) {
     browser = browser
@@ -173,7 +171,7 @@ module.exports = {
   },
   '11 - Checkout payment': function (browser) {
     browser = browser
-      .pause(1000) // No idea, needed for next setValue to work
+      .waitForElementVisible('#cardNumber', maxWait)
       .setValue('#cardNumber', '4242424242424242')
       .setValue('#cvc', Faker.finance.account(3))
       .setValue('#expMonth', moment().month() + 1)
