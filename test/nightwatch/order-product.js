@@ -28,7 +28,7 @@ module.exports = {
       .click('[href="/shop/' + tag.name + '/' + product.name + '"]')
       .waitForElementVisible('body.shop.product.' + product.name, 1000)
       .click('.btn-add-to-cart')
-      .waitForElementVisible('body.basket', 1000)
+      .waitForElementVisible('body.basket #basket tr', 1000)
       .assert.containsText('#basket tr:first-child .product-description p:first-child', product.name)
   },
   '03 - Checkout billing and shipping': function (browser) {
@@ -43,8 +43,8 @@ module.exports = {
       .setValue('#billingCity', Faker.address.streetAddress())
       .setValue('#billingCounty', Faker.address.streetAddress())
       .setValue('#billingPostcode', Faker.address.streetAddress())
-      // No idea, .click('[name=sameAddress]') does not work
-      .execute('$("[name=sameAddress]").click();')
+      .moveToElement('body', 0, 0)
+      .click('[name="sameAddress"]')
       .setValue('#shippingFirstName', Faker.name.firstName())
       .setValue('#shippingLastName', Faker.name.lastName())
       .setValue('#shippingEmail', Faker.internet.email())
@@ -57,10 +57,10 @@ module.exports = {
     browser = browser
       .click('.btn')
       .waitForElementVisible('body.payment', 1000)
-      .pause(1000) // No idea, needed for next setValue to work
+      .waitForElementVisible('#cardNumber', 1000)
       .setValue('#cardNumber', '4242424242424242')
       .setValue('#cvc', Faker.finance.account(3))
-      .setValue('#expMonth', moment().month())
+      .setValue('#expMonth', moment().month() + 1)
       .setValue('#expYear', moment().add(1, 'year').year())
       .click('.btn')
       .waitForElementVisible('body.confirm-order', 5000)
@@ -68,7 +68,7 @@ module.exports = {
   '05 - Checkout confirm': function (browser) {
     browser = browser
       .click('.btn')
-      .waitForElementVisible('body.thanks', 1000)
+      .waitForElementVisible('body.thanks', 5000)
       .end()
   }
 }

@@ -4,3 +4,4 @@ selenium-debug.log
 npm-debug.log
 reports
 config/runtime.json
+config/test.json

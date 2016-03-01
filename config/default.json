@@ -5,6 +5,7 @@
   "api": {
     "url": "http://localhost:3400"
   },
+  "mongo": "mongodb://localhost/sow-api-test",
   "backoffice": {
     "url": "http://localhost:3340",
     "login": {
