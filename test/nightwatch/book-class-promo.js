@@ -45,12 +45,15 @@ module.exports = {
       .waitForElementVisible('body.home', maxWait)
       .url(config.web.url + '/classes')
       .waitForElementVisible('body.classes', maxWait)
-      .click('#month option[value="' + moment(cls.startTimes[0]).format('YYYY-MM') + '"]')
-      .waitForElementVisible('body.classes', maxWait)
+      
+    browser = clickByContainsText('.sow-panel span', tag.name, browser)
+      .waitForElementVisible('body.classes', 100000)
 
     browser = clickByContainsText('.sow-panel span', classTemplate.name, browser)
       .waitForElementVisible('body.class', 100000)
-      .click('.btn.book-now')
+      .click('.book-now')
+      .waitForElementVisible('#modal-class-select-date', maxWait)
+      .click('#modal-class-select-date [data-date="' + cls.date.toISOString() + '"]')
       .waitForElementVisible('body.basket #basket tr', maxWait)
       .assert.containsText('#basket tr:first-child .product-description p:first-child', classTemplate.name)
   },

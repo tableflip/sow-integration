@@ -128,12 +128,15 @@ module.exports = {
       .waitForElementVisible('body.home', 1000)
       .url(config.web.url + '/classes')
       .waitForElementVisible('body.classes', 1000)
-      .click('#month option[value="' + moment(cls.startTimes[0]).format('YYYY-MM') + '"]')
-      .waitForElementVisible('body.classes', 1000)
+
+    browser = clickByContainsText('.sow-panel span', tag.name, browser)
+      .waitForElementVisible('body.classes', 100000)
 
     browser = clickByContainsText('.sow-panel span', classTemplate.name, browser)
       .waitForElementVisible('body.class', 1000)
-      .click('.btn.book-now')
+      .click('.book-now')
+      .waitForElementVisible('#modal-class-select-date', maxWait)
+      .click('#modal-class-select-date [data-date="' + cls.date.toISOString() + '"]')
       .waitForElementVisible('body.basket #basket tr', 1000)
       .assert.containsText('#basket tr:first-child .product-description p:first-child', classTemplate.name)
       .setValue('#voucher-code', giftCodes[0])
