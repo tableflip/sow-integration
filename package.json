@@ -9,7 +9,7 @@
     "config": "^1.14.0",
     "faker": "^3.0.0",
     "moment": "^2.10.3",
-    "mongojs": "^2.2.2",
+    "mongojs": "^2.4.0",
     "nightwatch": "^0.7.6",
     "ps-tree": "^1.0.1",
     "selenium-standalone": "^4.5.3"
