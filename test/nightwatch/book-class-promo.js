@@ -1,9 +1,6 @@
 var config = require('config')
 var Faker = require('faker')
 var moment = require('moment')
-var mongojs = require('mongojs')
-var login = require('../helpers/bo/login')
-var createVoucher = require('../helpers/bo/create-voucher')
 var fakeRecipe = require('sow-api/test/helpers/fake-recipe')
 var createRecipe = require('../helpers/bo/create-recipe')
 var fakeMenu = require('sow-api/test/helpers/fake-menu')
@@ -26,7 +23,6 @@ var classTemplate = fakeClassTemplate()
 var cls = fakeClass({duration: 'THREE_HOUR'})
 
 var maxWait = 2000
-var promoCode = 'SOW' + Date.now()
 
 module.exports = {
   '01 - Add promo to backoffice': function (browser) {
@@ -45,7 +41,7 @@ module.exports = {
       .waitForElementVisible('body.home', maxWait)
       .url(config.web.url + '/classes')
       .waitForElementVisible('body.classes', maxWait)
-      
+
     browser = clickByContainsText('.sow-panel span', tag.name, browser)
       .waitForElementVisible('body.classes', 100000)
 
