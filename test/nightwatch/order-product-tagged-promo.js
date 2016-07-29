@@ -12,6 +12,7 @@ var createTaggedPromo = require('../helpers/bo/create-tagged-promo')
 var clickByContainsText = require('../helpers/click-by-contains-text')
 
 var dbConn = mongojs(config.mongo)
+var ProductTags = dbConn.collection('producttags')
 
 var productTagName = 'test-tag-' + Date.now()
 var tag = fakeProductTag({
@@ -24,13 +25,7 @@ var promo = null
 module.exports = {
   '00 - set up the product tag and promo code': function () {
     async.waterfall([
-      function cleanDb (cb) {
-        var ProductTags = dbConn.collection('producttags')
-        ProductTags.remove({}, function (err) {
-          cb(err, ProductTags)
-        })
-      },
-      function insertProductTag (ProductTags, cb) {
+      function insertProductTag (cb) {
         ProductTags.insert(tag, cb)
       },
       function createPromoCode (productTag, cb) {
@@ -47,7 +42,7 @@ module.exports = {
       }
     ], function (err, promo) {
       if (err) return console.error(err)
-      dbConn.close()
+      console.log('Created promo code ', promo.code)
     })
   },
   '01 - Add product to backoffice': function (browser) {
@@ -110,12 +105,16 @@ module.exports = {
       .setValue('#expYear', moment().add(1, 'year').year())
       .click('.btn')
       .waitForElementVisible('body.confirm-order', 5000)
-      .assert.containsText('.total p', 'Total £' + (product.price / 2) + '.00')
+      .assert.containsText('.total p', (product.price / 2))
   },
   '05 - Checkout confirm': function (browser) {
     browser = browser
       .click('.btn')
       .waitForElementVisible('body.thanks', 5000)
       .end()
+    ProductTags.remove({_id: promo.tags[0]}, function (err) {
+      if (err) console.error(err)
+      dbConn.close()
+    })
   }
 }
