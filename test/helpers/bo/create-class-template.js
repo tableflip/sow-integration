@@ -21,7 +21,7 @@ module.exports = function (data, tags, browser) {
     .setValue('#class-template-create-info-faqs', data.info.faqs)
     .setValue('#class-template-create-info-reviews', data.info.reviews)
 
-   browser = selectByText('#class-template-create-tags', tags.map(function (t) { return t.name }), browser)
+  browser = selectByText('#class-template-create-tags', tags.map(function (t) { return t.name }), browser)
 
   return browser
     .click('#class-template-create-duration option[value="' + data.duration + '"]')

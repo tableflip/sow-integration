@@ -80,7 +80,7 @@ module.exports = function (data, tags, menus, browser, opts) {
 
   browser = data.startTimes.reduce(function (browser, startTime, i) {
     var endTime = data.endTimes[i]
-
+    if (!menus[i]) return browser
     return browser
       .clearValue('#class-create-start-time-' + i)
       .setValue('#class-create-start-time-' + i, moment(startTime).format('DD/MM/YYYY HH:mm'))
