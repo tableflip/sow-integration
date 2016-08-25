@@ -18,7 +18,7 @@ var clickByContainsText = require('../helpers/click-by-contains-text')
 var fakePromo = require('sow-api/test/helpers/fake-promo')
 var createPromo = require('../helpers/bo/create-promo')
 
-var promo = fakePromo({start: new Date()})
+var promo = fakePromo({type: 'PERCENT', value: 50, start: new Date()})
 var recipes = [fakeRecipe(), fakeRecipe()]
 var menu = fakeMenu()
 var tag = fakeClassTag()
@@ -45,7 +45,7 @@ module.exports = {
       .waitForElementVisible('body.home', maxWait)
       .url(config.web.url + '/classes')
       .waitForElementVisible('body.classes', maxWait)
-      
+
     browser = clickByContainsText('.sow-panel span', tag.name, browser)
       .waitForElementVisible('body.classes', 100000)
 
