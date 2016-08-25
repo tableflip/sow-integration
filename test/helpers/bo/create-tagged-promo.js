@@ -1,12 +1,8 @@
 var config = require('config')
-var login = require('./login')
 var moment = require('moment')
 
-var maxWait = 2000
-var pauseOnClick = 500
-
 module.exports = function (data, browser) {
-  browser = browser
+  return browser
     .url(config.backoffice.url + '/promo')
     .waitForElementVisible('body.promo-create', 1000)
     .setValue('#promo-create-name', data.name)
@@ -19,5 +15,4 @@ module.exports = function (data, browser) {
     .click('.btn[type=submit]')
     .waitForElementVisible('body.promos', 1000)
     .assert.elementPresent('.alert-success')
-  return browser
 }
