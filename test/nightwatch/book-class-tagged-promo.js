@@ -171,5 +171,7 @@ module.exports = {
       .click('.btn')
       .waitForElementVisible('body.thanks', maxWait)
       .end()
+
+    dbConn.close()
   }
 }
