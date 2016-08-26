@@ -14,3 +14,11 @@ Start up schoolofwok.co.uk, sow-backoffice, sow-api in `NODE_ENV=test` and run [
     ```
 
 N.B. You can start up all the servers without running the tests using `npm start`
+
+### Test specific suite
+
+e.g.
+
+```sh
+NIGHTWATCH_TEST=test/nightwatch/book-class-promo.js npm test
+```
